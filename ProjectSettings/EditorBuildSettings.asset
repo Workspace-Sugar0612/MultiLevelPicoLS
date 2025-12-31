@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MLPLS/Scenes/Main.unity
+    guid: 1176a9e0694e3ad4c9f783a47281e02f
+  m_configObjects:
+    Unity.XR.PXR.Settings: {fileID: 11400000, guid: 91879ffd0c76dd04fb0aeadc03f24b81, type: 2}
