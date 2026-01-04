@@ -38,13 +38,6 @@ public class CameraController : MonoBehaviour
         StartCoroutine(InitCoroutine());
     }
 
-    private void Initialize()
-    {
-        sceneObjectManager = SceneObjectManager.Get();
-
-        SwitchCamera(CurrentCameraTag);
-    }
-
     private IEnumerator InitCoroutine()
     {
         sceneObjectManager = SceneObjectManager.Get();

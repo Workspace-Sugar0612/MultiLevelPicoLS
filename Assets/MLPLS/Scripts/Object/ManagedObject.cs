@@ -8,7 +8,8 @@ public enum ManagedObjectTag
     None,
     Player,
     Item,
-    Environment
+    Environment,
+    Display
 }
 
 [Serializable]
