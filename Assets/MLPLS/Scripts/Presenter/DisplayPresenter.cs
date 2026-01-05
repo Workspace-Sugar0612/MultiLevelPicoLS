@@ -1,12 +1,15 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisplayPresenter : MonoBehaviour
+public class DisplayPresenter : NetworkBehaviour
 {
     [SerializeField] private DisplayData displayData;
 
     [SerializeField] private DisplayGUI displayGUI;
+
+    [SyncVar] private bool isDisplay = true;
 
     private void Start()
     {
@@ -20,22 +23,38 @@ public class DisplayPresenter : MonoBehaviour
 
         displayGUI.OnClickClassButton += OnClickClassButton;
         displayGUI.OnClickObjButton += OnClickObjectButton;
+        displayGUI.OnClickDisplayButton += OnClickDisplayButton;
     }
 
     private void OnClickClassButton(int clickIndex)
     {
-        Debug.Log("OnClickClassButton: " + clickIndex);
-        displayData.CurrentClassIndex = clickIndex;
+        displayData.CmdSetClassIndex(clickIndex);
         displayGUI.InitObjectListScrollRect(displayData.DisplayDataList[clickIndex].ObjectList);
     }
 
     private void OnClickObjectButton(int clickIndex)
     {
-        Debug.Log("OnClickObjectButton: " + clickIndex);
-        displayData.CurrentObjectIndex = clickIndex;
-        displayData.SetObjectActiveByIndex(displayData.CurrentClassIndex, clickIndex,
+        displayData.CmdSetObjectIndex(clickIndex);
+        displayData.CmdSetObjectActiveByIndex(displayData.CurrentClassIndex, clickIndex,
             true);
 
         displayGUI.SetActiveForObjectList(false);
     }
+
+    private void OnClickDisplayButton()
+    {
+        displayData.CmdSetIsDisplay(isDisplay);
+        displayGUI.SetDisplayButtonText(isDisplay);
+        CmdSetIsDisplay(!isDisplay);
+    }
+
+    #region Member Variables
+
+    [Command(requiresAuthority = false)]
+    private void CmdSetIsDisplay(bool display)
+    {
+        isDisplay = display;
+    }
+
+    #endregion
 }

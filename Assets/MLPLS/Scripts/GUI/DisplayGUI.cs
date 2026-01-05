@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DisplayGUI : MonoBehaviour
 {
-    #region 选择框GUI
+    #region UI 组件
 
     [SerializeField]
     private GameObject classScrollRect;
@@ -26,11 +26,16 @@ public class DisplayGUI : MonoBehaviour
     [SerializeField]
     private Transform objButtonParent;
 
+    [SerializeField]
+    private Button displayButton;
+
     #endregion
 
     public Action<int> OnClickClassButton;
 
     public Action<int> OnClickObjButton;
+
+    public Action OnClickDisplayButton;
 
     private List<GameObject> objectButtonList = new List<GameObject>();
 
@@ -43,6 +48,10 @@ public class DisplayGUI : MonoBehaviour
     public void Initialized(List<DisplayStruct> list)
     {
         InitClassScrollRect(list);
+
+        displayButton.onClick.AddListener(() => {
+            OnClickDisplayButton?.Invoke();
+        });
     }
 
     private void InitClassScrollRect(List<DisplayStruct> list)
@@ -93,8 +102,17 @@ public class DisplayGUI : MonoBehaviour
 
     #endregion
 
+    #region UI Methods
+
     public void SetActiveForObjectList(bool active)
     {
         objectListScrollRect.SetActive(active);
     }
+
+    public void SetDisplayButtonText(bool b)
+    {
+        displayButton.GetComponentInChildren<Text>().text = b ? "放回" : "3D展示";
+    }
+
+    #endregion
 }
