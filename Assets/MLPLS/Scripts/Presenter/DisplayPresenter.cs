@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DisplayPresenter : NetworkBehaviour
 {
-    [SerializeField] private DisplayData displayData;
+    [SerializeField] private NetworkDisplayData displayData;
 
     [SerializeField] private DisplayGUI displayGUI;
 

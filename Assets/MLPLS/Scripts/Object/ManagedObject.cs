@@ -9,7 +9,8 @@ public enum ManagedObjectTag
     Player,
     Item,
     Environment,
-    Display
+    Display,
+    SandTable
 }
 
 [Serializable]

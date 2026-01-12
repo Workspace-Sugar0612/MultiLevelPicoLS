@@ -30,7 +30,7 @@ public class ObjectStruct
     public GameObject DisplayObject;
 }
 
-public class DisplayData : NetworkBehaviour
+public class NetworkDisplayData : NetworkBehaviour
 {
     [SerializeField] private List<DisplayStruct> displayDataList;
 
