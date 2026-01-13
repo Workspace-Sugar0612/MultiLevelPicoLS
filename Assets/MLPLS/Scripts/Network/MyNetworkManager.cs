@@ -96,6 +96,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="newSceneName"></param>
     public override void ServerChangeScene(string newSceneName)
     {
+        Debug.Log($"ServerChangeScene to {newSceneName}");
         base.ServerChangeScene(newSceneName);
     }
 
@@ -104,13 +105,13 @@ public class MyNetworkManager : NetworkManager
     /// <para>This allows server to do work / cleanup / prep before the scene changes.</para>
     /// </summary>
     /// <param name="newSceneName">Name of the scene that's about to be loaded</param>
-    public override void OnServerChangeScene(string newSceneName) { }
+    public override void OnServerChangeScene(string newSceneName) { Debug.Log($"OnServerChangeScene"); }
 
     /// <summary>
     /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
     /// </summary>
     /// <param name="sceneName">The name of the new scene.</param>
-    public override void OnServerSceneChanged(string sceneName) { }
+    public override void OnServerSceneChanged(string sceneName) { Debug.Log($"OnServerSceneChanged"); }
 
     /// <summary>
     /// Called from ClientChangeScene immediately before SceneManager.LoadSceneAsync is executed
@@ -141,6 +142,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerConnect(NetworkConnectionToClient conn) 
     {
+        //Debug.Log($"OnServerConnect");
         // userWindow?.UpdateMessageOfUser(SystemInfo.deviceUniqueIdentifier + " connected!\n");
 
         //userWindow.messageTextStr += SystemInfo.deviceUniqueIdentifier + " connected!\n";
@@ -155,6 +157,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
+        //Debug.Log($"OnServerReady");
         base.OnServerReady(conn);
     }
 
@@ -165,6 +168,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
+        //Debug.Log($"OnServerAddPlayer");
         base.OnServerAddPlayer(conn);
     }
 
@@ -175,6 +179,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
+        //Debug.Log($"OnServerDisconnect");
         // userWindow?.UpdateMessageOfUser(SystemInfo.deviceUniqueIdentifier + " disconnected!\n");
 
         // userWindow.messageTextStr += SystemInfo.deviceUniqueIdentifier + " disconnected!\n";
@@ -192,7 +197,7 @@ public class MyNetworkManager : NetworkManager
     /// <param name="message">String message of the error.</param>
     public override void OnServerError(NetworkConnectionToClient conn, TransportError transportError, string message) 
     {
-
+        //Debug.Log($"OnServerError");
     }
 
     #endregion
@@ -207,7 +212,7 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnClientConnect();
         //UserWindow userWindow = UIController.Get().GetWindow<UserWindow>(EWindowType.UserWindow) as UserWindow;
-        
+       // Debug.Log($"OnClientConnect");
         // userWindow.UpdateMessageOfUser(SystemInfo.deviceUniqueIdentifier + " connected!\n");
         //Log.cinput("red", "Connected to server.");
     }
@@ -260,12 +265,12 @@ public class MyNetworkManager : NetworkManager
     /// This is invoked when a server is started - including when a host is started.
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartServer() {  }
+    public override void OnStartServer() { }
 
     /// <summary>
     /// This is invoked when the client is started.
     /// </summary>
-    public override void OnStartClient() {  }
+    public override void OnStartClient() { }
 
     /// <summary>
     /// This is called when a host is stopped.

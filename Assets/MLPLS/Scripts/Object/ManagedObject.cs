@@ -38,7 +38,7 @@ public class ManagedObject : MonoBehaviour
 
     public bool IsInitialized = false;
 
-    private void Awake()
+    private void OnEnable()
     {
         StartCoroutine(InitCoroutine());
     }
@@ -49,13 +49,8 @@ public class ManagedObject : MonoBehaviour
 
         yield return new WaitUntil(() => _sceneObjectManager.IsInitialized);
 
-        _sceneObjectManager.AddObject(ObjectTag, this);
+        //_sceneObjectManager.AddObject(ObjectTag, this);
 
         IsInitialized = true;
-    }
-
-    private void Start()
-    {
-        
     }
 }

@@ -11,11 +11,15 @@ public class CameraItem : MonoBehaviour
 
     public bool IsShowBuilding = true;
 
+    public bool IsShowDisplay = true;
+
+    [Range(0.0f, 1.0f)] public float DisplayAlpha = 1.0f;
+
     private CameraController cameraController;
 
     private  AudioListener audioListener;
 
-    public Action OnChangedSceneObject; // 不同的相机场景内容不同
+    public Action OnChangedSceneObject; // 不同的相机场景内容不同  
 
     private void Awake()
     {

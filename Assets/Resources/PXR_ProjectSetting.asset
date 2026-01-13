@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useContentProtect: 0
   handTracking: 1
-  adaptiveHand: 0
+  adaptiveHand: 1
   highFrequencyHand: 0
   openMRC: 1
   faceTracking: 0

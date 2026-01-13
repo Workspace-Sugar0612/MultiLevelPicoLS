@@ -27,12 +27,12 @@ public class SceneObjectManager : MonoBehaviour
 
     private void Initialized()
     {
-        sceneObjectList.Clear();
-        foreach (ManagedObjectTag tag in Enum.GetValues(typeof(ManagedObjectTag)))
-        {
-            ManagedObjectPackageBody body = new ManagedObjectPackageBody(tag);
-            sceneObjectList.Add(body);
-        }
+        //sceneObjectList.Clear();
+        //foreach (ManagedObjectTag tag in Enum.GetValues(typeof(ManagedObjectTag)))
+        //{
+        //    ManagedObjectPackageBody body = new ManagedObjectPackageBody(tag);
+        //    sceneObjectList.Add(body);
+        //}
         IsInitialized = true;
     }
 
@@ -76,11 +76,22 @@ public class SceneObjectManager : MonoBehaviour
     public void SetActiveForObjectWithTag(ManagedObjectTag tag, bool isActive)
     {
         ManagedObjectPackageBody body = GetObjectPackageBody(tag);
-        Debug.Log($"SetActiveForObjectWithTag: {tag} to {isActive}, body.ManagedObjectList£º{body.ManagedObjectList.Count}");
+        // Debug.Log($"SetActiveForObjectWithTag: {tag} to {isActive}, body.ManagedObjectList£º{body.ManagedObjectList.Count}");
         foreach (ManagedObject obj in body.ManagedObjectList)
         {
-            obj.gameObject.SetActive(isActive);
+            obj.gameObject.NetworkSetActive(isActive);
         }
+    }
+
+    public bool IsLoaded()
+    {
+        int totalCount = 0;
+        int sceneObjectCount = GameObject.FindObjectsOfType<ManagedObject>().Length;
+        foreach (ManagedObjectPackageBody body in sceneObjectList)
+        {
+            totalCount += body.ManagedObjectList.Count;
+        }
+        return totalCount == sceneObjectCount;
     }
 
     #endregion

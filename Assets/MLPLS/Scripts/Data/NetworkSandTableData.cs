@@ -46,7 +46,7 @@ public class NetworkSandTableData : NetworkBehaviour
 
     public void OnChangedIndex(int oldVal, int newVal)
     {
-        Debug.Log($"oldVal: {oldVal}, newVal: {newVal}");
+        //Debug.Log($"oldVal: {oldVal}, newVal: {newVal}");
         SetModelActive(oldVal, false);
         SetModelActive(newVal, true);
     }

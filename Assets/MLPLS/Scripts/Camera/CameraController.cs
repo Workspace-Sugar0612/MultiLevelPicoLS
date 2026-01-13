@@ -38,25 +38,11 @@ public class CameraController : MonoBehaviour
         StartCoroutine(InitCoroutine());
     }
 
-    private IEnumerator InitCoroutine()
+    public IEnumerator InitCoroutine()
     {
         sceneObjectManager = SceneObjectManager.Get();
-
-        bool isSceneObjectInitialized = true;
-        foreach (ManagedObjectTag tag in Enum.GetValues(typeof(ManagedObjectTag)))
-        {
-            List<ManagedObject> list = sceneObjectManager.GetObjectPackageBody(tag).ManagedObjectList;
-            foreach (ManagedObject obj in list)
-            {
-                if (!obj.IsInitialized)
-                {
-                    isSceneObjectInitialized = false;
-                    break;
-                }
-            }
-        }
-
-        yield return new WaitUntil(() => isSceneObjectInitialized);
+       
+        yield return new WaitUntil(() => sceneObjectManager.IsLoaded());
 
         SwitchCamera(CurrentCameraTag);
     }
@@ -78,7 +64,19 @@ public class CameraController : MonoBehaviour
     {
         foreach (var pair in cameraDict)
         {
-            Action cameraAction = () => { sceneObjectManager.SetActiveForObjectWithTag(ManagedObjectTag.Environment, pair.Value.IsShowBuilding); };
+            Action cameraAction = () => 
+            {
+                sceneObjectManager.SetActiveForObjectWithTag(ManagedObjectTag.Environment, pair.Value.IsShowBuilding);
+                List<ManagedObject> list = sceneObjectManager.GetObjectPackageBody(ManagedObjectTag.Display).ManagedObjectList;
+                list.ForEach(obj => 
+                {
+                    DisplayObject displayObj = obj as DisplayObject;
+                    if (displayObj != null)
+                    {
+                        displayObj.Alpha = pair.Value.DisplayAlpha;
+                    }
+                });
+            };
             pair.Value.OnChangedSceneObject += pair.Key == tag ? cameraAction : null;
             pair.Value.Setup(pair.Key == tag);
         }
