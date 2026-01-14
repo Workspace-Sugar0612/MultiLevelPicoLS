@@ -69,6 +69,7 @@ public class DisplayGUI : MonoBehaviour
                 OnClickClassButton?.Invoke(clickIndex);
             });
         }
+        classButtonParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
         classScrollRect.SetActive(true);
         objectListScrollRect.SetActive(false);
     }

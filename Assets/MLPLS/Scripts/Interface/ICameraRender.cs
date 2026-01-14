@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICameraRender
 {
-    public void SetDisyplayAlpha(float alpha);
+    public void SetDisyplayAlpha(GameObject display, float alpha, float duration);
 }

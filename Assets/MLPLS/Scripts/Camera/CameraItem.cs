@@ -1,11 +1,12 @@
 using kcp2k;
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class CameraItem : MonoBehaviour
+public class CameraItem : MonoBehaviour, ICameraRender
 {
     public CameraTag cameraTag;
 
@@ -40,5 +41,10 @@ public class CameraItem : MonoBehaviour
         gameObject.tag = isActive ? "MainCamera" : "Untagged";
         audioListener.gameObject.SetActive(isActive);
         OnChangedSceneObject?.Invoke();
+    }
+
+    public void SetDisyplayAlpha(GameObject display, float alpha, float duration)
+    {
+        display.GetComponent<DisplayObject>()!.SetAlphaTransition(alpha, duration);
     }
 }

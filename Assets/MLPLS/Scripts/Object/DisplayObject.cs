@@ -24,4 +24,25 @@ public class DisplayObject : ManagedObject
     {
         renderer = GetComponent<Renderer>();
     }
+
+    public void SetAlphaTransition(float targetAlpha, float duration)
+    {
+        StartCoroutine(AlphaTransitionCoroutine(targetAlpha, duration));
+    }
+
+    private IEnumerator AlphaTransitionCoroutine(float targetAlpha, float duration)
+    {
+        yield return new WaitForSeconds(0.1f);
+        float startAlpha = alpha;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / duration);
+            renderer.material.SetFloat("_AlphaScale", alpha);
+            yield return null;
+        }
+        alpha = targetAlpha;
+        renderer.material.SetFloat("_AlphaScale", alpha);
+    }
 }

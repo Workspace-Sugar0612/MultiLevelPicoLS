@@ -30,7 +30,7 @@ public class ObjectStruct
     public GameObject DisplayObject;
 }
 
-public class NetworkDisplayData : NetworkBehaviour
+public class NetworkDisplayData : NetworkBehaviour, IDisplayAPI
 {
     [SerializeField] private List<DisplayStruct> displayDataList;
 
@@ -98,6 +98,7 @@ public class NetworkDisplayData : NetworkBehaviour
     public void CmdSetIsDisplay(bool display)
     {
         RpcSetIsDisplay(display);
+        RpcDisplayAlphaTransition(display);
     }
 
     [ClientRpc]
@@ -105,6 +106,19 @@ public class NetworkDisplayData : NetworkBehaviour
     {
         Action action = display ? Display : Putback;
         action?.Invoke();
+    }
+
+    [ClientRpc]
+    public void RpcDisplayAlphaTransition(bool isDisplay)
+    {
+        if (CameraController.Get().CurrentCameraTag == CameraTag.Player)
+        {
+            DisplayStruct display = displayDataList[CurrentClassIndex];
+            for(int i = 0; i < display.ObjectList.Count; i++)
+            {
+                display.ObjectList[i].DisplayObject.GetComponent<DisplayObject>()?.SetAlphaTransition(isDisplay ? 1.0f : 0.0f, 2.0f);
+            }
+        }
     }
 
     [Command(requiresAuthority = false)]
@@ -132,13 +146,13 @@ public class NetworkDisplayData : NetworkBehaviour
         display.SetActiveByIndex(objectIndex, true);
     }
 
-    public void Display()
+    private void Display()
     {
         SetDisplayAnimation("isDisplay", true);
         SetDisplayAnimation("isPutback", false);
     }
 
-    public void Putback()
+    private void Putback()
     {
         SetDisplayAnimation("isDisplay", false);
         SetDisplayAnimation("isPutback", true);
